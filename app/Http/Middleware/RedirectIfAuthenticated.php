@@ -19,7 +19,8 @@ class RedirectIfAuthenticated
     public function handle($request, Closure $next, $guard = null)
     {
         if (Auth::guard($guard)->check()) {
-            return redirect(RouteServiceProvider::HOME);
+            session()->flash('info', 'You are logged in and no action is required.');
+            return redirect('/');
         }
 
         return $next($request);
