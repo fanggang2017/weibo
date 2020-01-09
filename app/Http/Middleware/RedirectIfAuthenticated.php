@@ -19,7 +19,8 @@ class RedirectIfAuthenticated
     public function handle($request, Closure $next, $guard = null)
     {
         if (Auth::guard($guard)->check()) {
-            session()->flash('info', 'You are logged in and no action is required.');
+            $msg = $request->is('signup') ? 'You are registered and logged in!' : 'You are logged in and no action is required.';
+            session()->flash('info', $msg);
             return redirect('/');
         }
 
