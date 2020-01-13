@@ -32,6 +32,14 @@ use Illuminate\Support\Str;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property int $is_admin
+ * @property string|null $activation_token
+ * @property int $activated
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Status[] $statuses
+ * @property-read int|null $statuses_count
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereActivated($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereActivationToken($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereIsAdmin($value)
  */
 class User extends Authenticatable
 {
@@ -78,5 +86,10 @@ class User extends Authenticatable
         static::creating(function ($user) {
             $user->activation_token = Str::random(10);
         });
+    }
+
+    public function statuses()
+    {
+        return $this->hasMany(Status::class);
     }
 }
