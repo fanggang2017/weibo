@@ -114,4 +114,18 @@ class UsersController extends Controller
         session()->flash('success', 'Congratulations on your registration.');
         return redirect()->route('users.show', [$user]);
     }
+
+    public function followings(User $user)
+    {
+        $users = $user->followings()->paginate(10);
+        $title = $user->name . ' followee';
+        return view('users.show_follow', compact('users', 'title'));
+    }
+
+    public function followers(User $user)
+    {
+        $users = $user->followers()->paginate(10);
+        $title = $user->name . ' fans';
+        return view('users.show_follow', compact('users', 'title'));
+    }
 }
